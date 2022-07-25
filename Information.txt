@@ -137,24 +137,6 @@ AND ER.LAST_WAIT_TYPE NOT IN( 'TRACEWRITE','SP_SERVER_DIAGNOSTICS_SLEEP', 'BROKE
 ORDER BY SS.LAST_REQUEST_START_TIME DESC
 
 
------------------------------------------------------------KPI_PROD | Full backup. search-----------------------------------------------------
-
-
-
--------- RUN CANADA LOAD QUERY-----------
-Use KPI_DWH;
-Update KPI_E2E_PROCESS_CTL
-set 
-NEXT_PROCESS='START_CA'
-WHERE NAME='TRAN_FACT' AND MARKET='CA'
-
-
-Hi Team,
-
-Full back up for the database KPI_DWH on production server is completed .
-We have run the Canada load query too.
-
-Regards
 ==============================================================================================================================================================
 ----------------------------------------------SELECT path of Back-Up------------------------------------
 SELECT  backup_start_date
@@ -171,21 +153,14 @@ WHERE TYPE IN ('D') and
 database_name ='KPI_DWH' order by backup_start_date desc
 
 
---RESTORE DATABASE KPI_DWH FROM
---DISK = 'M:\Backup\KPI_DWH\Full\FULL_KPI_DWH_20190824_080149_Strip1of8.BAK',
---DISK = 'M:\Backup\KPI_DWH\Full\FULL_KPI_DWH_20190824_080149_Strip2of8.BAK',
---DISK = 'M:\Backup\KPI_DWH\Full\FULL_KPI_DWH_20190824_080149_Strip3of8.BAK',
---DISK = 'M:\Backup\KPI_DWH\Full\FULL_KPI_DWH_20190824_080149_Strip4of8.BAK',
---DISK = 'M:\Backup\KPI_DWH\Full\FULL_KPI_DWH_20190824_080149_Strip5of8.BAK',
---DISK = 'M:\Backup\KPI_DWH\Full\FULL_KPI_DWH_20190824_080149_Strip6of8.BAK',
---DISK = 'M:\Backup\KPI_DWH\Full\FULL_KPI_DWH_20190824_080149_Strip7of8.BAK',
---DISK = 'M:\Backup\KPI_DWH\Full\FULL_KPI_DWH_20190824_080149_Strip8of8.BAK'
---WITH STANDBY = 'M:\DR_Standby_File\ROLLBACK_UNDO_KPI_DWH_Volume.BAK'
+--RESTORE DATABASE ABC FROM
+--DISK = 'M:\Backup\ABC\Full\FULL_ABC_20190824_080149_Strip1of8.BAK',
+--WITH STANDBY = 'M:\DR_Standby_File\ROLLBACK_UNDO_ABC_Volume.BAK'
 --GO
 
 ============================================================================================================================================
 select top 10  * from msdb.dbo.sysmail_sentitems order by sent_date desc
---we’ll se a row for each message with an unsent or retrying status.
+--weÂ’ll se a row for each message with an unsent or retrying status.
 select top 10 * from msdb.dbo.sysmail_unsentitems  order by sent_date desc
 --Database mail message with status failed
 select top 10 * from msdb.dbo.sysmail_faileditems  order by sent_date desc
@@ -408,8 +383,8 @@ go
 Cmf link - 
 http://10.205.10.29/cmf/bugs.aspx
 
-user id – ritesh.chawla
-pass – 113Billion$
+user id Â– ritesh.chawla
+pass Â– 113Billion$
 
 use mayors_cauth
 
@@ -1231,9 +1206,9 @@ select 'EXEC msdb.dbo.sp_update_job @job_name=N''' + name + ''', ' + char(10)   
 		@notify_email_operator_name=N''dba_maint_alert_Operator'' ' + char(10) + 'GO'
 from sysjobs where name  like '%DBA%'
 ========================================================================================================================================================
-Server – PROD1GSDB03
-Database – Admin
-Procedure Name – p_dba_replication_commands_total
+Server Â– PROD1GSDB03
+Database Â– Admin
+Procedure Name Â– p_dba_replication_commands_total
 
 article wise deliverd command
 =========================================================================================================================================================
@@ -1636,7 +1611,7 @@ osql -S servername -U username -P password
 
 Net start | findstr -I SQL 
 
-•	Net start | findstr -I SQL 
+Â•	Net start | findstr -I SQL 
 
 Taskkill / pid 2344 /F
 
@@ -1880,8 +1855,8 @@ ORDER BY time DESC
 --SET @PublisherDatabaseName = 'WC_MIG_CI'
 SELECT
 DISTINCT
---top 100  
-srv.srvname publication_server  
+--top 100 Â 
+srv.srvname publication_server Â 
 , a.publisher_db as PublisherDatabaseName
 , a.publisher_id
 , p.publication publication_name
@@ -1890,32 +1865,32 @@ srv.srvname publication_server  
 --, a.destination_object
 , ss.srvname subscription_server
 , s.subscriber_db
-, da.name AS distribution_agent_job_name
+,Â da.nameÂ AS distribution_agent_job_name
 --,*
-FROM distribution..MSArticles a  
+FROM distribution..MSArticles a Â 
 JOIN distribution..MSpublications p ON a.publication_id = p.publication_id
 JOIN distribution..MSsubscriptions s ON p.publication_id = s.publication_id
-JOIN  master..sysservers ss ON s.subscriber_id = ss.srvid
-JOIN  master..sysservers srv ON srv.srvid = p.publisher_id
-JOIN distribution..MSdistribution_agents da ON da.publisher_id = p.publisher_id  
-     AND da.subscriber_id = s.subscriber_id and p.publication = da.publication
+JOIN Â master..sysservers ss ON s.subscriber_id = ss.srvid
+JOIN Â master..sysservers srv ON srv.srvid = p.publisher_id
+JOIN distribution..MSdistribution_agents da ON da.publisher_id = p.publisher_id Â 
+Â  Â  Â AND da.subscriber_id = s.subscriber_id and p.publication = da.publication
 where (@PublisherDatabaseName is Null or a.publisher_db = @PublisherDatabaseName )-- query to show the article level information (pending replication commands per article).
- WITH MaxXact (ServerName, PublisherDBID, XactSeqNo)
+Â WITH MaxXact (ServerName, PublisherDBID, XactSeqNo)
 As (
 Select S.name, DA.publisher_database_id, max(H.xact_seqno)
-    From distribution.dbo.MSdistribution_history H with(nolock)
-    Inner Join distribution.dbo.MSdistribution_agents DA with(nolock) On DA.id = H.agent_id
-    Inner Join master.sys.servers S with(nolock) On S.server_id = DA.subscriber_id
-    Group By S.name, DA.publisher_database_id
- )
+Â  Â  From distribution.dbo.MSdistribution_history H with(nolock)
+Â  Â  Inner Join distribution.dbo.MSdistribution_agents DA with(nolock) On DA.id = H.agent_id
+Â  Â  Inner Join master.sys.servers S with(nolock) On S.server_id = DA.subscriber_id
+Â  Â  Group By S.name, DA.publisher_database_id
+Â )
 SELECT MX.ServerName, a.publisher_db PublisherDbName
 ,A.article
 , COUNT(*) As CommandsNotReplicated
 FROM DISTRIBUTION.dbo.MSrepl_commands C WITH(NOLOCK)
 RIGHT JOIN MaxXact MX On MX.XactSeqNo < C.xact_seqno And MX.PublisherDBID = C.publisher_database_id
 JOIN [distribution].[dbo].[MSarticles] AS A on A.article_id = C.article_id
-WHERE 1=1  
--- MX.PublisherDBID =   2
+WHERE 1=1 Â 
+-- MX.PublisherDBID = Â  2
 -- and a.publisher_db = 'FV_Prepaid_CI'
 GROUP BY MX.ServerName, a.publisher_db , A.article
 order by MX.ServerName, a.publisher_db, CommandsNotReplicated desc
