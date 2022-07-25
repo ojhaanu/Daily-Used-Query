@@ -2144,4 +2144,25 @@ ELSE ' Restricted to ' + CAST(max_size/(128*1024) AS VARCHAR(10)) + ' GB' END
 + CASE is_percent_growth WHEN 1 THEN ' [autogrowth by percent, BAD setting!]' ELSE '' END
 FROM sys.database_files A LEFT JOIN sys.filegroups fg ON A.data_space_id = fg.data_space_id
 order by A.TYPE desc, A.NAME;
+===================================================================================================================================================================
+To create login for multiple DB
+------------------------------------------------------
+
+SET NOCOUNT ON;
+
+DECLARE @user_name    SYSNAME
+        , @login_name SYSNAME;
+
+SELECT @user_name = 'QA-PLAT\harshit.gupta',
+       @login_name = 'QA-PLAT\harshit.gupta'
+
+SELECT 'USE ' + QUOTENAME(NAME) + ';
+        CREATE USER ' + QUOTENAME(@user_name)
+       + ' FOR LOGIN ' + QUOTENAME(@login_name)
+       + ' WITH DEFAULT_SCHEMA=[dbo];
+    EXEC sys.sp_addrolemember ''AppSupportRole'',''' + @user_name + ''';
+'
+FROM   sys.databases
+WHERE  database_id > 4
+       AND state_desc = 'ONLINE'
 
